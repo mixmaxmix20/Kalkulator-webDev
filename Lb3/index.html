@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pl_PL">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <style>
+            #kontener {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                width: fit-content;
+                border: solid 2px black;
+            }
+
+            .display {
+                text-align: right;
+                margin: 7px;
+                line-height: 50px;
+                border: solid 2px black;
+                grid-column: span 4;
+            }
+
+            .field {
+                background-color: gray;
+                border: solid 2px black;
+                width: 3em;
+                margin: 5px;
+                height: 3em;
+                float: left;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .field:hover {
+                background-color: cyan;
+            }
+
+            .large_field {
+                background-color: gray;
+                border: solid 2px black;
+                width: 7em;
+                margin: 5px;
+                height: 3em;
+                float: left;
+                grid-column: span 2;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .large_field:hover {
+                background-color: cyan;
+            }
+        </style>
+        <script>
+            function init() {
+                let elementC = document.createElement("div")
+                let elementB = document.createElement("div")
+                let elementDivision = document.createElement("div")
+                let elementMultiplier = document.createElement("div")
+                let elementSubstraction = document.createElement("div")
+                let elementAddition = document.createElement("div")
+                let elementDot = document.createElement("div")
+                let elementEqual = document.createElement("div")
+                let elementDisplay = document.createElement("div")
+                let elementZero = document.createElement("div")
+
+                elementC.innerHTML = "C"
+                elementB.innerHTML = "\u232B"
+                elementDivision.innerHTML = "\u00F7"
+                elementMultiplier.innerHTML = "x"
+                elementSubstraction.innerHTML = "\u2212"
+                elementAddition.innerHTML = "\u002B"
+                elementDot.innerHTML = "."
+                elementEqual.innerHTML = "\u003D"
+                elementDisplay.innerHTML = "0"
+                elementZero.innerHTML = "0"
+
+                elementC.setAttribute("id", "f_C")
+                elementB.setAttribute("id", "f_B")
+                elementDivision.setAttribute("id", "f_Division")
+                elementMultiplier.setAttribute("id", "f_Multiplier")
+                elementSubstraction.setAttribute("id", "f_Substraction")
+                elementAddition.setAttribute("id", "f_Addition")
+                elementDot.setAttribute("id", "f_Dot")
+                elementEqual.setAttribute("id", "f_Equal")
+                elementDisplay.setAttribute("id", "f_Display")
+                elementZero.setAttribute("id", "f_0")
+
+                elementC.setAttribute("class", "large_field")
+                elementB.setAttribute("class", "large_field")
+                elementDivision.setAttribute("class", "field")
+                elementMultiplier.setAttribute("class", "field")
+                elementSubstraction.setAttribute("class", "field")
+                elementAddition.setAttribute("class", "field")
+                elementDot.setAttribute("class", "field")
+                elementEqual.setAttribute("class", "field")
+                elementDisplay.setAttribute("class", "display")
+                elementZero.setAttribute("class", "field")
+
+                elementC.setAttribute("onclick", "user_input('f_C')")
+                elementB.setAttribute("onclick", "user_input('f_B')")
+                elementDivision.setAttribute("onclick", "user_input('f_Division')")
+                elementMultiplier.setAttribute("onclick", "user_input('f_Multiplier')")
+                elementSubstraction.setAttribute("onclick", "user_input('f_Substraction')")
+                elementAddition.setAttribute("onclick", "user_input('f_Addition')")
+                elementDot.setAttribute("onclick", "user_input('f_Dot')")
+                elementEqual.setAttribute("onclick", "user_input('f_Equal')")
+                elementDisplay.setAttribute("onclick", "user_input('f_Display')")
+                elementZero.setAttribute("onclick", "user_input('f_Zero')")
+
+                document.getElementById("kontener").appendChild(elementDisplay)
+                document.getElementById("kontener").appendChild(elementC)
+                document.getElementById("kontener").appendChild(elementB)
+
+                // Dodanie cyfr
+                for (let j = 7; j >= 1; j -= 3) {
+                    for (let k = j; k < j + 3; k++) {
+                        let element = document.createElement("div")
+                        element.innerHTML = k;
+                        element.setAttribute("id", "f_" + k)
+                        element.setAttribute("class", "field")
+                        element.setAttribute("onclick", "user_input('f_" + k + "')")
+                        document.getElementById("kontener").appendChild(element)
+                    }
+                    if (j === 1) {
+                        document.getElementById("kontener").appendChild(elementSubstraction)
+                        document.getElementById("kontener").appendChild(elementDot)
+                        document.getElementById("kontener").appendChild(elementZero)
+                    }
+
+                    if (j === 7) {
+                        document.getElementById("kontener").appendChild(elementDivision)
+                    }
+
+                    if (j === 4) {
+                        document.getElementById("kontener").appendChild(elementMultiplier)
+                    }
+                }
+                document.getElementById("kontener").appendChild(elementEqual)
+                document.getElementById("kontener").appendChild(elementAddition)
+            }
+
+            function user_input(id) {
+                let display = document.getElementById("f_Display")
+                let value = document.getElementById(id).innerHTML
+
+                if (id === "f_C") {
+                    display.innerHTML = 0
+                } else if (id === "f_B") {
+                    display.innerHTML = display.innerHTML.slice(0, -1) || "0"
+                } else if (id === "f_Addition") {
+                    display.innerHTML += "\u002B"
+                }
+
+                if (!isNaN(value) && display.innerHTML === "0" ) {
+                    display.innerHTML = value
+                } else if (!isNaN(value)) {
+                    display.innerHTML += value
+                }
+            }
+        </script>
+    </head>
+    <body onload="init();">
+        <div id="kontener">
+        </div>
+    </body>
+</html>
